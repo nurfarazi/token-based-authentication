@@ -42,7 +42,7 @@ app.post('/regi', function (req, res) {
     var address = req.query.address;
     var conpanyname = req.query.conpanyname;
 
-    console.log(username);
+    //console.log(username);
 
     // create a sample user
     var user = new User({
