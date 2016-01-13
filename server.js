@@ -23,19 +23,37 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    res.setHeader('Access-Control-Allow-Headers', 'x-access-token, token');
+    next();
+});
 
-app.get('/regi', function (req, res) {
 
-    var username = req.query.name;
+app.post('/regi', function (req, res) {
+
+    var name = req.query.name;
+    var password = req.query.name;
+    var email = req.query.email;
+    var phone = req.query.phone;
+    var address = req.query.address;
+    var conpanyname = req.query.conpanyname;
+
     console.log(username);
 
     // create a sample user
-    var nick = new User({
-        name: '1',
-        password: '1',
-        admin: true
+    var user = new User({
+        name: name,
+        password: password,
+        email: password,
+        phone: phone,
+        address: address,
+        conpanyname: conpanyname,
+        admin: false
     });
-    nick.save(function (err) {
+    user.save(function (err) {
         if (err) throw err;
 
         console.log('User saved successfully');
@@ -45,14 +63,11 @@ app.get('/regi', function (req, res) {
     });
 });
 
-// basic route (http://localhost:8080)
+
 app.get('/', function (req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-// ---------------------------------------------------------
-// get an instance of the router for api routes
-// ---------------------------------------------------------
 var apiRoutes = express.Router();
 
 // ---------------------------------------------------------
@@ -101,12 +116,11 @@ apiRoutes.post('/authenticate', function (req, res) {
     });
 });
 
-// ---------------------------------------------------------
-// route middleware to authenticate and check token
-// ---------------------------------------------------------
+
+
 apiRoutes.use(function (req, res, next) {
 
-    // check header or url parameters or post parameters for token
+
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
     // decode token
@@ -160,8 +174,5 @@ apiRoutes.get('/check', function (req, res) {
 
 app.use('/api', apiRoutes);
 
-// =================================================================
-// start the server ================================================
-// =================================================================
 app.listen(port);
 console.log('Magic happens at http://localhost:' + port);
