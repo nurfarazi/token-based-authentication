@@ -11,7 +11,7 @@ var User = require('./app/models/user');
 // =================================================================
 // configuration ===================================================
 // =================================================================
-var port = process.env.PORT || 8180;
+var port = process.env.PORT || 8080;
 mongoose.connect(config.database);
 app.set('superSecret', config.secret);
 
@@ -22,13 +22,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// use morgan to log requests to the console
-app.use(morgan('dev'));
 
-// =================================================================
-// routes ==========================================================
-// =================================================================
-app.get('/setup', function (req, res) {
+
+app.get('/regi', function (req, res) {
+
+    var username = req.query.name;
+    console.log(username);
 
     // create a sample user
     var nick = new User({
