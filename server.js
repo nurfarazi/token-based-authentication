@@ -71,10 +71,7 @@ app.get('/', function (req, res) {
 
 var apiRoutes = express.Router();
 
-// ---------------------------------------------------------
-// authentication (no middleware necessary since this isnt authenticated)
-// ---------------------------------------------------------
-// http://localhost:8080/api/authenticate
+
 apiRoutes.post('/authenticate', function (req, res) {
 
     // find the user
