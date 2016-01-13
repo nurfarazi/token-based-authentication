@@ -76,7 +76,7 @@ apiRoutes.post('/authenticate', function (req, res) {
 
     // find the user
     User.findOne({
-        name: req.body.name
+        email: req.body.email
     }, function (err, user) {
 
         if (err) throw err;
@@ -99,7 +99,7 @@ apiRoutes.post('/authenticate', function (req, res) {
                 // if user is found and password is right
                 // create a token
                 var token = jwt.sign(user, app.get('superSecret'), {
-                    expiresInMinutes: 1440 // expires in 24 hours
+                    expiresInMinutes: 440
                 });
 
                 res.json({
